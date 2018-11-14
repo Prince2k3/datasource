@@ -8,18 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		1E67B30D219BBCF400F93E92 /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E67B30B219BBCF400F93E92 /* DataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		1E67B317219BBD4C00F93E92 /* DataSource+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E67B314219BBD4C00F93E92 /* DataSource+UICollectionView.swift */; };
-		1E67B318219BBD4C00F93E92 /* DataSource+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E67B315219BBD4C00F93E92 /* DataSource+UITableView.swift */; };
-		1E67B319219BBD4C00F93E92 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E67B316219BBD4C00F93E92 /* DataSource.swift */; };
+		1E67B32B219BBEDB00F93E92 /* DataSource+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E67B328219BBEDB00F93E92 /* DataSource+UITableView.swift */; };
+		1E67B32C219BBEDB00F93E92 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E67B329219BBEDB00F93E92 /* DataSource.swift */; };
+		1E67B32D219BBEDB00F93E92 /* DataSource+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E67B32A219BBEDB00F93E92 /* DataSource+UICollectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1E67B308219BBCF400F93E92 /* DataSource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DataSource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E67B30B219BBCF400F93E92 /* DataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
 		1E67B30C219BBCF400F93E92 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		1E67B314219BBD4C00F93E92 /* DataSource+UICollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DataSource+UICollectionView.swift"; path = "DataSource/DataSource+UICollectionView.swift"; sourceTree = SOURCE_ROOT; };
-		1E67B315219BBD4C00F93E92 /* DataSource+UITableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DataSource+UITableView.swift"; path = "DataSource/DataSource+UITableView.swift"; sourceTree = SOURCE_ROOT; };
-		1E67B316219BBD4C00F93E92 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataSource.swift; path = DataSource/DataSource.swift; sourceTree = SOURCE_ROOT; };
+		1E67B328219BBEDB00F93E92 /* DataSource+UITableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableView.swift"; sourceTree = "<group>"; };
+		1E67B329219BBEDB00F93E92 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
+		1E67B32A219BBEDB00F93E92 /* DataSource+UICollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DataSource+UICollectionView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,9 +61,9 @@
 		1E67B313219BBD3C00F93E92 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				1E67B316219BBD4C00F93E92 /* DataSource.swift */,
-				1E67B314219BBD4C00F93E92 /* DataSource+UICollectionView.swift */,
-				1E67B315219BBD4C00F93E92 /* DataSource+UITableView.swift */,
+				1E67B329219BBEDB00F93E92 /* DataSource.swift */,
+				1E67B32A219BBEDB00F93E92 /* DataSource+UICollectionView.swift */,
+				1E67B328219BBEDB00F93E92 /* DataSource+UITableView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -156,9 +156,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1E67B319219BBD4C00F93E92 /* DataSource.swift in Sources */,
-				1E67B318219BBD4C00F93E92 /* DataSource+UITableView.swift in Sources */,
-				1E67B317219BBD4C00F93E92 /* DataSource+UICollectionView.swift in Sources */,
+				1E67B32B219BBEDB00F93E92 /* DataSource+UITableView.swift in Sources */,
+				1E67B32C219BBEDB00F93E92 /* DataSource.swift in Sources */,
+				1E67B32D219BBEDB00F93E92 /* DataSource+UICollectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
