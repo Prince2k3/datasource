@@ -1,21 +1,17 @@
 import UIKit
 
-@objc(MSDataSourceDelegate)
-public protocol DataSourceDelegate {
-    @objc(dataSource:didConfigureCell:)
+public protocol DataSourceDelegate: class {
     func didConfigure(_ cell: DataSourceConfigurable, at indexPath: IndexPath)
-    
-    @objc(dataSource:commitEditingStyleForIndexPath:)
-    optional func commitEditingStyle(_ editingStyle: UITableViewCellEditingStyle, forIndexPath indexPath: IndexPath)
 }
 
-@objc(MSDataSourceConfigurable)
+public protocol DataSourceEditingStyleDelegate: class {
+    func commitEditingStyle(_ editingStyle: UITableViewCell.EditingStyle, for indexPath: IndexPath)
+}
+
 public protocol DataSourceConfigurable {
-    @objc(configureItem:)
     func configure(_ item: Any?)
 }
 
-@objc(MSDataSourceStaticItem)
 open class DataSourceStaticItem: NSObject {
     open var identifier: String = ""
     open var item: Any?
@@ -26,22 +22,22 @@ open class DataSourceStaticItem: NSObject {
     }
 }
 
-@objc(MSDataSource)
-open class DataSource: NSObject {
+public final class DataSource: NSObject {
     internal var staticItems: [DataSourceStaticItem] = []
     internal(set) var cellIdentifier: String = ""
     
-    open weak var delegate: DataSourceDelegate?
+    public weak var delegate: DataSourceDelegate?
+    public weak var editingStyleDelegate: DataSourceEditingStyleDelegate?
     
-    open var items: [Any] = []
-    open var title: String?
-    open var headerItem: DataSourceStaticItem?
-    open var footerItem: DataSourceStaticItem?
-    open var isEditable: Bool = false
-    open var isMovable: Bool = false
-    open var editableItems: [IndexPath: NSNumber]? // NSNumber represents the UITableViewCellEditingStyle
-    open var movableItems: [IndexPath]?
-    open var loadingMoreCellIdentifier: String?
+    public var items: [Any] = []
+    public var title: String?
+    public var headerItem: DataSourceStaticItem?
+    public var footerItem: DataSourceStaticItem?
+    public var isEditable: Bool = false
+    public var isMovable: Bool = false
+    public var editableItems: [IndexPath: NSNumber]? // NSNumber represents the UITableViewCellEditingStyle
+    public var movableItems: [IndexPath]?
+    public var loadingMoreCellIdentifier: String?
     
     override init() {
         super.init()
@@ -58,16 +54,15 @@ open class DataSource: NSObject {
         self.items = items
     }
     
-    @objc(itemAtIndexPath:)
-    open func item(at indexPath: IndexPath) -> Any? {
+    public func item(at indexPath: IndexPath) -> Any? {
         return self.items[indexPath.row]
     }
 }
 
-@objc(MSGroupedDataSource)
-open class GroupedDataSource: NSObject {
-    open weak var delegate: DataSourceDelegate?
-    open fileprivate(set) var dataSources: [DataSource] = [] {
+public final class GroupedDataSource: NSObject {
+    public weak var delegate: DataSourceDelegate?
+    
+    public fileprivate(set) var dataSources: [DataSource] = [] {
         didSet {
             self.dataSources.forEach { $0.delegate = self.delegate }
         }
@@ -78,13 +73,11 @@ open class GroupedDataSource: NSObject {
         defer { self.dataSources = dataSources }
     }
     
-    @objc(itemAtIndexPath:)
-    func item(at indexPath: IndexPath) -> Any? {
+    public func item(at indexPath: IndexPath) -> Any? {
         return self.dataSources[indexPath.section].item(at: indexPath)
     }
     
-    @objc(sectionTitleAtIndexPath:)
-    func sectionTitle(at indexPath: IndexPath) -> String? {
+    public func sectionTitle(at indexPath: IndexPath) -> String? {
         return self.dataSources[indexPath.section].title
     }
 }

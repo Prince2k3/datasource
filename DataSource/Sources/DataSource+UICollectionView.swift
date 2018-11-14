@@ -2,11 +2,11 @@
 import UIKit
 
 extension DataSource: UICollectionViewDataSource {
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if !self.staticItems.isEmpty {
             return self.staticItems.count
         }
@@ -18,7 +18,7 @@ extension DataSource: UICollectionViewDataSource {
         return 0
     }
     
-    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let identifier: String
         var item: Any?
         
@@ -42,17 +42,17 @@ extension DataSource: UICollectionViewDataSource {
         return cell
     }
     
-    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         var  identifier: String = ""
         var item: Any?
 
         if let headerItem = self.headerItem,
-            kind == UICollectionElementKindSectionHeader {
+            kind == UICollectionView.elementKindSectionHeader {
             
             identifier = headerItem.identifier
             item = headerItem.item
         } else if let footerItem = self.footerItem,
-            kind == UICollectionElementKindSectionFooter {
+            kind == UICollectionView.elementKindSectionFooter {
             
             identifier = footerItem.identifier
             item = footerItem.item
@@ -71,19 +71,19 @@ extension DataSource: UICollectionViewDataSource {
 
 
 extension GroupedDataSource: UICollectionViewDataSource {
-    open func numberOfSections(in collectionView: UICollectionView) -> Int {
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
         return self.dataSources.isEmpty ? 1 : self.dataSources.count
     }
     
-    open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.dataSources[section].collectionView(collectionView, numberOfItemsInSection: section)
     }
     
-    open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         return self.dataSources[indexPath.section].collectionView(collectionView, cellForItemAt: indexPath)
     }
     
-    open func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         return self.dataSources[indexPath.section].collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
 }
