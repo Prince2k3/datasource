@@ -87,7 +87,7 @@ coming soon
 ##### Carthage 
 just add to your Cartfile:
 ```
-github "Prince2k3/DataSource"
+github "Prince2k3/datasource"
 ```
 Then import the library in all files where you use it:
 ```
