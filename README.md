@@ -1,5 +1,5 @@
 # DataSource
-DataSource class for UITableView/UICollectionView written in Swift that moves away repetitive code and keeps the View Controller light
+UITableView and UICollectionView DataSource Class written in Swift that help remove repetitive code when is come to datasource management, keeping the view controller light
 
 ## Working with UITableView
 Note: If you are using UITableViewCell as a nib file, be sure to register the cell to the table view you are using. Otherwise you won't see the cell.
