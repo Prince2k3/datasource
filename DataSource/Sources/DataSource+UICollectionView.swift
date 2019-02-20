@@ -32,12 +32,11 @@ extension DataSource: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if !self.staticItems.isEmpty {
             return self.staticItems.count
+        } else if let numberOfItems = self.numberOfItems {
+            return numberOfItems
+        } else if !self.items.isEmpty {
+            return self.loadingMoreCellIdentifier != nil ? self.items.count + 1 : self.items.count
         }
-        
-        if !self.items.isEmpty {
-            return self.items.count
-        }
-        
         return 0
     }
     
@@ -45,12 +44,15 @@ extension DataSource: UICollectionViewDataSource {
         let identifier: String
         var item: Any?
         
-        if !self.staticItems.isEmpty {
+        if let loadingMoreCellIdentifier = self.loadingMoreCellIdentifier,
+           self.items.count == indexPath.row {
+            identifier = loadingMoreCellIdentifier
+        } else if !self.staticItems.isEmpty {
             let staticItem = self.staticItems[indexPath.row]
             identifier = staticItem.identifier
             item = staticItem.item
         } else {
-            item = self.item(at: indexPath)
+            item = self.items[indexPath.row]
             identifier = self.cellIdentifier
         }
         

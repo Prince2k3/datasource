@@ -54,13 +54,14 @@ public final class DataSource: NSObject {
     public weak var editingStyleDelegate: DataSourceEditingStyleDelegate?
     
     public var items: [Any] = []
+    public var numberOfItems: Int?
     public var title: String?
     public var headerItem: DataSourceStaticItem?
     public var footerItem: DataSourceStaticItem?
     public var isEditable: Bool = false
     public var isMovable: Bool = false
-    public var editableItems: [IndexPath: NSNumber]? // NSNumber represents the UITableViewCellEditingStyle
-    public var movableItems: [IndexPath]?
+    public var editableItems: [IndexPath: UITableViewCell.EditingStyle] = [:]
+    public var movableItems: [IndexPath] = []
     public var loadingMoreCellIdentifier: String?
     
     override init() {

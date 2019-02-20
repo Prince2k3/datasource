@@ -32,14 +32,10 @@ extension DataSource: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if !self.staticItems.isEmpty {
             return self.staticItems.count
-        }
-        
-        if !self.items.isEmpty {
-            if self.loadingMoreCellIdentifier != nil {
-                return self.items.count + 1
-            }
-            
-            return self.items.count
+        } else if let numberOfItems = self.numberOfItems {
+            return numberOfItems
+        } else if !self.items.isEmpty {
+            return self.loadingMoreCellIdentifier != nil ? self.items.count + 1 : self.items.count
         }
         
         return 0
@@ -47,8 +43,8 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         if self.isMovable {
-            if let movableItems = self.movableItems {
-                return movableItems.contains(indexPath)
+            if !self.movableItems.isEmpty {
+                return self.movableItems.contains(indexPath)
             } else {
                 return true // all
             }
@@ -59,8 +55,8 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if self.isEditable {
-            if let editableItems = self.editableItems {
-                return editableItems.keys.contains(indexPath)
+            if !self.editableItems.isEmpty {
+                return self.editableItems.keys.contains(indexPath)
             } else {
                 return true // all
             }
@@ -79,13 +75,13 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var identifier: String?
+        let identifier: String
         var item: Any?
         
         if let loadingMoreCellIdentifier = self.loadingMoreCellIdentifier,
-            self.items.count == indexPath.row {
+           self.items.count == indexPath.row {
             identifier = loadingMoreCellIdentifier
-        } else if self.staticItems.count > 0 {
+        } else if !self.staticItems.isEmpty {
             let staticItem = self.staticItems[indexPath.row]
             identifier = staticItem.identifier
             item = staticItem.item
@@ -94,7 +90,7 @@ extension DataSource: UITableViewDataSource {
             identifier = self.cellIdentifier
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: identifier!, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath)
         
         if let cell = cell as? DataSourceConfigurable {
             cell.configure(item)
