@@ -85,17 +85,17 @@ public final class DataSource: NSObject {
 }
 
 public final class GroupedDataSource: NSObject {
-    public weak var delegate: DataSourceDelegate?
-    
-    public fileprivate(set) var dataSources: [DataSource] = [] {
+    public weak var delegate: DataSourceDelegate? {
         didSet {
             self.dataSources.forEach { $0.delegate = self.delegate }
         }
     }
     
+    public fileprivate(set) var dataSources: [DataSource] = []
+    
     public convenience init(dataSources: [DataSource]) {
         self.init()
-        defer { self.dataSources = dataSources }
+        self.dataSources = dataSources
     }
     
     public func item(at indexPath: IndexPath) -> Any? {
