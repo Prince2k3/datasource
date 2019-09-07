@@ -47,8 +47,8 @@ open class DataSourceStaticItem: NSObject {
 }
 
 public final class DataSource: NSObject {
-    internal var staticItems: [DataSourceStaticItem] = []
-    internal(set) var cellIdentifier: String = ""
+    var staticItems: [DataSourceStaticItem] = []
+    var cellIdentifier: String = ""
     
     public weak var delegate: DataSourceDelegate?
     public weak var editingStyleDelegate: DataSourceEditingStyleDelegate?
@@ -80,14 +80,18 @@ public final class DataSource: NSObject {
     }
     
     public func item(at indexPath: IndexPath) -> Any? {
-        return self.items[indexPath.row]
+        return items[indexPath.row]
+    }
+    
+    public func addStaticItem(_ item: DataSourceStaticItem) {
+        staticItems.append(item)
     }
 }
 
 public final class GroupedDataSource: NSObject {
     public weak var delegate: DataSourceDelegate? {
         didSet {
-            self.dataSources.forEach { $0.delegate = self.delegate }
+            dataSources.forEach { $0.delegate = self.delegate }
         }
     }
     
@@ -95,14 +99,16 @@ public final class GroupedDataSource: NSObject {
     
     public convenience init(dataSources: [DataSource]) {
         self.init()
+        dataSources.forEach { $0.delegate = self.delegate }
         self.dataSources = dataSources
+        
     }
     
     public func item(at indexPath: IndexPath) -> Any? {
-        return self.dataSources[indexPath.section].item(at: indexPath)
+        return dataSources[indexPath.section].item(at: indexPath)
     }
     
     public func sectionTitle(at indexPath: IndexPath) -> String? {
-        return self.dataSources[indexPath.section].title
+        return dataSources[indexPath.section].title
     }
 }

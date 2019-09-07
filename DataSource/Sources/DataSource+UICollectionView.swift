@@ -31,11 +31,11 @@ extension DataSource: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if !self.staticItems.isEmpty {
-            return self.staticItems.count
+            return staticItems.count
         } else if let numberOfItems = self.numberOfItems {
             return numberOfItems
-        } else if !self.items.isEmpty {
-            return self.loadingMoreCellIdentifier != nil ? self.items.count + 1 : self.items.count
+        } else if !items.isEmpty {
+            return loadingMoreCellIdentifier != nil ? items.count + 1 : items.count
         }
         return 0
     }
@@ -45,15 +45,15 @@ extension DataSource: UICollectionViewDataSource {
         var item: Any?
         
         if let loadingMoreCellIdentifier = self.loadingMoreCellIdentifier,
-           self.items.count == indexPath.row {
+            items.count == indexPath.row {
             identifier = loadingMoreCellIdentifier
-        } else if !self.staticItems.isEmpty {
-            let staticItem = self.staticItems[indexPath.row]
+        } else if !staticItems.isEmpty {
+            let staticItem = staticItems[indexPath.row]
             identifier = staticItem.identifier
             item = staticItem.item
         } else {
-            item = self.items[indexPath.row]
-            identifier = self.cellIdentifier
+            item = items[indexPath.row]
+            identifier = cellIdentifier
         }
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
@@ -87,7 +87,7 @@ extension DataSource: UICollectionViewDataSource {
 
         if let cell = cell as? DataSourceConfigurable {
             cell.configure(item)
-            self.delegate?.didConfigure(cell, at: indexPath)
+            delegate?.didConfigure(cell, at: indexPath)
         }
 
         return cell
@@ -97,18 +97,18 @@ extension DataSource: UICollectionViewDataSource {
 
 extension GroupedDataSource: UICollectionViewDataSource {
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return self.dataSources.isEmpty ? 1 : self.dataSources.count
+        return dataSources.isEmpty ? 1 : dataSources.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.dataSources[section].collectionView(collectionView, numberOfItemsInSection: section)
+        return dataSources[section].collectionView(collectionView, numberOfItemsInSection: section)
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return self.dataSources[indexPath.section].collectionView(collectionView, cellForItemAt: indexPath)
+        return dataSources[indexPath.section].collectionView(collectionView, cellForItemAt: indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        return self.dataSources[indexPath.section].collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
+        return dataSources[indexPath.section].collectionView(collectionView, viewForSupplementaryElementOfKind: kind, at: indexPath)
     }
 }
