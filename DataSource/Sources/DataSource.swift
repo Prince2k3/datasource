@@ -47,12 +47,12 @@ open class DataSourceStaticItem: NSObject {
 }
 
 public final class DataSource: NSObject {
-    var staticItems: [DataSourceStaticItem] = []
     var cellIdentifier: String = ""
     
     public weak var delegate: DataSourceDelegate?
     public weak var editingStyleDelegate: DataSourceEditingStyleDelegate?
     
+    public var staticItems: [DataSourceStaticItem] = []
     public var items: [Any] = []
     public var numberOfItems: Int?
     public var title: String?
@@ -81,10 +81,6 @@ public final class DataSource: NSObject {
     
     public func item(at indexPath: IndexPath) -> Any? {
         return items[indexPath.row]
-    }
-    
-    public func addStaticItem(_ item: DataSourceStaticItem) {
-        staticItems.append(item)
     }
 }
 
