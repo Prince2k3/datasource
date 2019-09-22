@@ -6,25 +6,10 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		"DataSource::DataSourcePackageTests::ProductTarget" /* DataSourcePackageTests */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = OBJ_37 /* Build configuration list for PBXAggregateTarget "DataSourcePackageTests" */;
-			buildPhases = (
-			);
-			dependencies = (
-				OBJ_40 /* PBXTargetDependency */,
-			);
-			name = DataSourcePackageTests;
-			productName = DataSourcePackageTests;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		OBJ_26 /* DataSource+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* DataSource+UICollectionView.swift */; };
 		OBJ_27 /* DataSource+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataSource+UITableView.swift */; };
 		OBJ_28 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* DataSource.swift */; };
-		OBJ_35 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
 		OBJ_46 /* DataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* DataSourceTests.swift */; };
 		OBJ_47 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* XCTestManifests.swift */; };
 		OBJ_49 /* DataSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "DataSource::DataSource::Product" /* DataSource.framework */; };
@@ -38,13 +23,6 @@
 			remoteGlobalIDString = "DataSource::DataSource";
 			remoteInfo = DataSource;
 		};
-		1EF1BA022337216000417D87 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = "DataSource::DataSourceTests";
-			remoteInfo = DataSourceTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -56,7 +34,6 @@
 		OBJ_15 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_19 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		OBJ_20 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* DataSource+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataSource+UICollectionView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,7 +86,6 @@
 		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
-				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
 				OBJ_12 /* Tests */,
 				OBJ_16 /* Products */,
@@ -173,20 +149,6 @@
 			productReference = "DataSource::DataSourceTests::Product" /* DataSourceTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		"DataSource::SwiftPMPackageDescription" /* DataSourcePackageDescription */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_31 /* Build configuration list for PBXNativeTarget "DataSourcePackageDescription" */;
-			buildPhases = (
-				OBJ_34 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = DataSourcePackageDescription;
-			productName = DataSourcePackageDescription;
-			productType = "com.apple.product-type.framework";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -209,8 +171,6 @@
 			projectRoot = "";
 			targets = (
 				"DataSource::DataSource" /* DataSource */,
-				"DataSource::SwiftPMPackageDescription" /* DataSourcePackageDescription */,
-				"DataSource::DataSourcePackageTests::ProductTarget" /* DataSourcePackageTests */,
 				"DataSource::DataSourceTests" /* DataSourceTests */,
 			);
 		};
@@ -227,14 +187,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_34 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 0;
-			files = (
-				OBJ_35 /* Package.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		OBJ_45 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
@@ -247,11 +199,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_40 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = "DataSource::DataSourceTests" /* DataSourceTests */;
-			targetProxy = 1EF1BA022337216000417D87 /* PBXContainerItemProxy */;
-		};
 		OBJ_50 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "DataSource::DataSource" /* DataSource */;
@@ -346,36 +293,6 @@
 			};
 			name = Debug;
 		};
-		OBJ_32 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.1";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		OBJ_33 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				LD = /usr/bin/true;
-				OTHER_SWIFT_FLAGS = "-swift-version 5 -I $(TOOLCHAIN_DIR)/usr/lib/swift/pm/4_2 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.15.sdk -package-description-version 5.1";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		OBJ_38 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Debug;
-		};
-		OBJ_39 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-			};
-			name = Release;
-		};
 		OBJ_4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -468,24 +385,6 @@
 			buildConfigurations = (
 				OBJ_23 /* Debug */,
 				OBJ_24 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_31 /* Build configuration list for PBXNativeTarget "DataSourcePackageDescription" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_32 /* Debug */,
-				OBJ_33 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		OBJ_37 /* Build configuration list for PBXAggregateTarget "DataSourcePackageTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				OBJ_38 /* Debug */,
-				OBJ_39 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
