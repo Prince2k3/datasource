@@ -24,12 +24,7 @@ SOFTWARE.
 
 import UIKit
 
-public protocol DataSourceConfigurable {
-    associatedtype CellData
-    func configure(_ data: CellData?)
-}
-
-public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierType: Hashable, Configurable: DataSourceConfigurable>: NSObject where Configurable.CellData == ItemIdentifierType {
+public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierType: Hashable>: NSObject {
     public typealias TableViewCellProvider = (UITableView, IndexPath, ItemIdentifierType) -> UITableViewCell?
     public typealias CollectionViewCellProvider = (UICollectionView, IndexPath, ItemIdentifierType) -> UICollectionViewCell?
     public typealias SupplementaryViewProvider = (UICollectionView, String, IndexPath) -> UICollectionReusableView?
@@ -100,7 +95,6 @@ public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierTyp
         var sourceItems = items[sections[sourceIndexPath.section]] ?? []
         let item = sourceItems.remove(at: sourceIndexPath.row)
         items[sections[sourceIndexPath.section]] = sourceItems
-        
         
         var destinationItems = items[sections[destinationIndexPath.section]] ?? []
         destinationItems.insert(item, at: destinationIndexPath.row)
