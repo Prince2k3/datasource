@@ -24,7 +24,7 @@ SOFTWARE.
 
 import UIKit
 
-public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierType: Hashable>: NSObject {
+public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierType: Hashable>: NSObject, UITableViewDataSource, UICollectionViewDataSource {
     public typealias TableViewCellProvider = (UITableView, IndexPath, ItemIdentifierType) -> UITableViewCell?
     public typealias CollectionViewCellProvider = (UICollectionView, IndexPath, ItemIdentifierType) -> UICollectionViewCell?
     public typealias SupplementaryViewProvider = (UICollectionView, String, IndexPath) -> UICollectionReusableView?
