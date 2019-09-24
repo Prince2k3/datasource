@@ -30,8 +30,8 @@ extension DataSource: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if !self.staticItems.isEmpty {
-            return staticItems.count
+        if !self.staticCells.isEmpty {
+            return staticCells.count
         } else if let numberOfItems = self.numberOfItems {
             return numberOfItems
         } else if !items.isEmpty {
@@ -41,16 +41,24 @@ extension DataSource: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if !staticCells.isEmpty {
+            guard
+                let staticCell = staticCells[indexPath.row] as? UICollectionViewCell
+                else { fatalError("cell is not of type UICollectionViewCell") }
+            
+            if let cell = staticCell as? DataSourceConfigurable {
+                cell.configure(item)
+                delegate?.didConfigure(cell, at: indexPath)
+            }
+            
+            return staticCell
+        }
+        
         let identifier: String
         var item: Any?
         
-        if let loadingMoreCellIdentifier = self.loadingMoreCellIdentifier,
-            items.count == indexPath.row {
+        if let loadingMoreCellIdentifier = self.loadingMoreCellIdentifier, items.count == indexPath.row {
             identifier = loadingMoreCellIdentifier
-        } else if !staticItems.isEmpty {
-            let staticItem = staticItems[indexPath.row]
-            identifier = staticItem.identifier
-            item = staticItem.item
         } else {
             item = items[indexPath.row]
             identifier = cellIdentifier
@@ -71,16 +79,16 @@ extension DataSource: UICollectionViewDataSource {
         var  identifier: String = ""
         var item: Any?
 
-        if let headerItem = self.headerItem,
+        if let headerView = self.headerView,
             kind == UICollectionView.elementKindSectionHeader {
             
-            identifier = headerItem.identifier
-            item = headerItem.item
-        } else if let footerItem = self.footerItem,
+            identifier = headerView.identifier
+            item = headerView.item
+        } else if let footerView = self.footerView,
             kind == UICollectionView.elementKindSectionFooter {
             
-            identifier = footerItem.identifier
-            item = footerItem.item
+            identifier = footerView.identifier
+            item = footerView.item
         }
 
         let cell = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: identifier, for: indexPath)

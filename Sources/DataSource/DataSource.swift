@@ -36,14 +36,9 @@ public protocol DataSourceConfigurable {
     func configure(_ item: Any?)
 }
 
-open class DataSourceStaticItem: NSObject {
-    open var identifier: String = ""
-    open var item: Any?
-    
-    public init(identifier: String, item: Any? = nil) {
-        self.identifier = identifier
-        self.item = item
-    }
+public protocol DataSourceStaticCell: UIView {
+    var identifier: String { get }
+    var item: Any? { get set }
 }
 
 public final class DataSource: NSObject {
@@ -52,25 +47,21 @@ public final class DataSource: NSObject {
     public weak var delegate: DataSourceDelegate?
     public weak var editingStyleDelegate: DataSourceEditingStyleDelegate?
     
-    public var staticItems: [DataSourceStaticItem] = []
+    public var staticCells: [DataSourceStaticCell] = []
     public var items: [Any] = []
     public var numberOfItems: Int?
     public var title: String?
-    public var headerItem: DataSourceStaticItem?
-    public var footerItem: DataSourceStaticItem?
+    public var headerView: DataSourceStaticCell?
+    public var footerView: DataSourceStaticCell?
     public var isEditable: Bool = false
     public var isMovable: Bool = false
-    public var editableItems: [IndexPath: UITableViewCell.EditingStyle] = [:]
-    public var movableItems: [IndexPath] = []
+    public var editableCells: [IndexPath: UITableViewCell.EditingStyle] = [:]
+    public var movableCellIndexPaths: [IndexPath] = []
     public var loadingMoreCellIdentifier: String?
     
-    override init() {
-        super.init()
-    }
-    
-    public convenience init(staticItems: [DataSourceStaticItem]) {
+    public convenience init(staticCells: [DataSourceStaticCell]) {
         self.init()
-        self.staticItems = staticItems
+        self.staticCells = staticCells
     }
     
     public convenience init(cellIdentifier: String, items: [Any] = []) {
@@ -91,7 +82,7 @@ public final class GroupedDataSource: NSObject {
         }
     }
     
-    public fileprivate(set) var dataSources: [DataSource] = []
+    public private(set) var dataSources: [DataSource] = []
     
     public convenience init(dataSources: [DataSource]) {
         self.init()

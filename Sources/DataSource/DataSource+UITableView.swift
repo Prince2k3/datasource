@@ -30,8 +30,8 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !staticItems.isEmpty {
-            return staticItems.count
+        if !staticCells.isEmpty {
+            return staticCells.count
         } else if let numberOfItems = self.numberOfItems {
             return numberOfItems
         } else if !items.isEmpty {
@@ -43,8 +43,8 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         if isMovable {
-            if !movableItems.isEmpty {
-                return movableItems.contains(indexPath)
+            if !movableCellIndexPaths.isEmpty {
+                return movableCellIndexPaths.contains(indexPath)
             } else {
                 return true // all
             }
@@ -55,8 +55,8 @@ extension DataSource: UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if isEditable {
-            if !editableItems.isEmpty {
-                return editableItems.keys.contains(indexPath)
+            if !editableCells.isEmpty {
+                return editableCells.keys.contains(indexPath)
             } else {
                 return true // all
             }
@@ -75,15 +75,25 @@ extension DataSource: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        if !staticCells.isEmpty {
+            guard
+                let staticCell = staticCells[indexPath.row] as? UITableViewCell
+                else { fatalError("item is not of type UITableViewCell") }
+         
+            if let cell = staticCell as? DataSourceConfigurable {
+                cell.configure(item)
+                delegate?.didConfigure(cell, at: indexPath)
+            }
+            
+            return staticCell
+        }
+        
         let identifier: String
         var item: Any?
         
         if let loadingMoreCellIdentifier = self.loadingMoreCellIdentifier, items.count == indexPath.row {
             identifier = loadingMoreCellIdentifier
-        } else if !staticItems.isEmpty {
-            let staticItem = staticItems[indexPath.row]
-            identifier = staticItem.identifier
-            item = staticItem.item
         } else {
             item = items[indexPath.row]
             identifier = cellIdentifier
