@@ -24,78 +24,124 @@ SOFTWARE.
 
 import UIKit
 
-public protocol DataSourceDelegate: class {
-    func didConfigure(_ cell: DataSourceConfigurable, at indexPath: IndexPath)
-}
-
-public protocol DataSourceEditingStyleDelegate: class {
-    func commitEditingStyle(_ editingStyle: UITableViewCell.EditingStyle, for indexPath: IndexPath)
-}
-
 public protocol DataSourceConfigurable {
-    func configure(_ item: Any?)
+    associatedtype CellData
+    func configure(_ data: CellData?)
 }
 
-public protocol DataSourceStaticCell: UIView {
-    var identifier: String { get }
-    var item: Any? { get set }
-}
-
-public final class DataSource: NSObject {
-    var cellIdentifier: String = ""
+public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierType: Hashable, Configurable: DataSourceConfigurable>: NSObject where Configurable.CellData == ItemIdentifierType {
+    public typealias TableViewCellProvider = (UITableView, IndexPath, ItemIdentifierType) -> UITableViewCell?
+    public typealias CollectionViewCellProvider = (UICollectionView, IndexPath, ItemIdentifierType) -> UICollectionViewCell?
+    public typealias SupplementaryViewProvider = (UICollectionView, String, IndexPath) -> UICollectionReusableView?
     
-    public weak var delegate: DataSourceDelegate?
-    public weak var editingStyleDelegate: DataSourceEditingStyleDelegate?
+    public var commitEditingStyle: ((UITableViewCell.EditingStyle, IndexPath) -> Void)?
     
-    public var staticCells: [DataSourceStaticCell] = []
-    public var items: [Any] = []
+    private var tableViewCellProvider: TableViewCellProvider?
+    private var collectionViewCellProvider: CollectionViewCellProvider?
+    private var supplementaryViewProvider: SupplementaryViewProvider?
+    private var sections: [SectionIdentifierType] = []
+    
+    public var items: [SectionIdentifierType: [ItemIdentifierType]] = [:]
     public var numberOfItems: Int?
-    public var title: String?
-    public var headerView: DataSourceStaticCell?
-    public var footerView: DataSourceStaticCell?
-    public var isEditable: Bool = false
-    public var isMovable: Bool = false
+    public var isCellsEditable: Bool = false
+    public var isCellsMovable: Bool = false
     public var editableCells: [IndexPath: UITableViewCell.EditingStyle] = [:]
     public var movableCellIndexPaths: [IndexPath] = []
-    public var loadingMoreCellIdentifier: String?
-    
-    public convenience init(staticCells: [DataSourceStaticCell]) {
-        self.init()
-        self.staticCells = staticCells
-    }
-    
-    public convenience init(cellIdentifier: String, items: [Any] = []) {
-        self.init()
-        self.cellIdentifier = cellIdentifier
-        self.items = items
-    }
-    
-    public func item(at indexPath: IndexPath) -> Any? {
-        return items[indexPath.row]
-    }
-}
 
-public final class GroupedDataSource: NSObject {
-    public weak var delegate: DataSourceDelegate? {
-        didSet {
-            dataSources.forEach { $0.delegate = self.delegate }
-        }
-    }
-    
-    public private(set) var dataSources: [DataSource] = []
-    
-    public convenience init(dataSources: [DataSource]) {
+    public convenience init(collectionViewCellProvider: @escaping CollectionViewCellProvider, supplementaryViewProvider: SupplementaryViewProvider? = nil) {
         self.init()
-        dataSources.forEach { $0.delegate = self.delegate }
-        self.dataSources = dataSources
+        self.collectionViewCellProvider = collectionViewCellProvider
+        self.supplementaryViewProvider = supplementaryViewProvider
+    }
+    
+    public convenience init(tableViewCellProvider: @escaping TableViewCellProvider) {
+        self.init()
+        self.tableViewCellProvider = tableViewCellProvider
+    }
+    
+    // UITableView
+    
+    public func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let numberOfItems = self.numberOfItems {
+            return numberOfItems
+        }
         
+        return 0
     }
     
-    public func item(at indexPath: IndexPath) -> Any? {
-        return dataSources[indexPath.section].item(at: indexPath)
+    public func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        if isCellsMovable {
+            return !movableCellIndexPaths.isEmpty ? movableCellIndexPaths.contains(indexPath) : true
+        }
+        
+        return false
     }
     
-    public func sectionTitle(at indexPath: IndexPath) -> String? {
-        return dataSources[indexPath.section].title
+    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if isCellsEditable {
+            if !editableCells.isEmpty {
+                return editableCells.keys.contains(indexPath)
+            } else {
+                return true // all
+            }
+        }
+        return false
+    }
+    
+    public func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        commitEditingStyle?(editingStyle, indexPath)
+    }
+    
+    public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        var sourceItems = items[sections[sourceIndexPath.section]] ?? []
+        let item = sourceItems.remove(at: sourceIndexPath.row)
+        items[sections[sourceIndexPath.section]] = sourceItems
+        
+        
+        var destinationItems = items[sections[destinationIndexPath.section]] ?? []
+        destinationItems.insert(item, at: destinationIndexPath.row)
+        items[sections[destinationIndexPath.section]] = destinationItems
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard
+            let item = items[sections[indexPath.section]]?[indexPath.row],
+            let tableViewCellProvider = self.tableViewCellProvider,
+            let cell = tableViewCellProvider(tableView, indexPath, item)
+            else { fatalError("must define a 'UITableViewCell'") }
+        return cell
+    }
+    
+    // UICollectionView
+    
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return sections.count
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if let numberOfItems = self.numberOfItems {
+            return numberOfItems
+        }
+        return 0
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard
+            let item = items[sections[indexPath.section]]?[indexPath.row],
+            let collectionViewCellProvider = self.collectionViewCellProvider,
+            let cell = collectionViewCellProvider(collectionView, indexPath, item)
+            else { fatalError("must define a 'UICollectionViewCell'") }
+        return cell
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard
+            let view = supplementaryViewProvider?(collectionView, kind, indexPath)
+            else { fatalError("Reusable view not defined") }
+        return view
     }
 }

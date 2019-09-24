@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		OBJ_26 /* DataSource+UICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* DataSource+UICollectionView.swift */; };
-		OBJ_27 /* DataSource+UITableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* DataSource+UITableView.swift */; };
+		1EA60E72233A935200A39B5D /* StaticDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA60E71233A935200A39B5D /* StaticDataSource.swift */; };
 		OBJ_28 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* DataSource.swift */; };
 		OBJ_46 /* DataSourceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* DataSourceTests.swift */; };
 		OBJ_47 /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* XCTestManifests.swift */; };
@@ -26,15 +25,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1EA60E71233A935200A39B5D /* StaticDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticDataSource.swift; sourceTree = "<group>"; };
 		"DataSource::DataSource::Product" /* DataSource.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = DataSource.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"DataSource::DataSourceTests::Product" /* DataSourceTests.xctest */ = {isa = PBXFileReference; lastKnownFileType = file; path = DataSourceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_10 /* DataSource+UITableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataSource+UITableView.swift"; sourceTree = "<group>"; };
 		OBJ_11 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		OBJ_14 /* DataSourceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSourceTests.swift; sourceTree = "<group>"; };
 		OBJ_15 /* XCTestManifests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTestManifests.swift; sourceTree = "<group>"; };
 		OBJ_19 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		OBJ_20 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		OBJ_9 /* DataSource+UICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataSource+UICollectionView.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,9 +103,8 @@
 		OBJ_8 /* DataSource */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_9 /* DataSource+UICollectionView.swift */,
-				OBJ_10 /* DataSource+UITableView.swift */,
 				OBJ_11 /* DataSource.swift */,
+				1EA60E71233A935200A39B5D /* StaticDataSource.swift */,
 			);
 			name = DataSource;
 			path = Sources/DataSource;
@@ -181,8 +178,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_26 /* DataSource+UICollectionView.swift in Sources */,
-				OBJ_27 /* DataSource+UITableView.swift in Sources */,
+				1EA60E72233A935200A39B5D /* StaticDataSource.swift in Sources */,
 				OBJ_28 /* DataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
