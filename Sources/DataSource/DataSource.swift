@@ -37,7 +37,7 @@ public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierTyp
     private var sections: [SectionIdentifierType] = []
     
     public var items: [SectionIdentifierType: [ItemIdentifierType]] = [:]
-    public var numberOfItems: [SectionIdentifierType: Int]?
+    public var numberOfItems: [SectionIdentifierType: Int] = [:]
     public var isCellsEditable: Bool = false
     public var isCellsMovable: Bool = false
     public var editableCells: [IndexPath: UITableViewCell.EditingStyle] = [:]
@@ -63,7 +63,7 @@ public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierTyp
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let count = numberOfItems?[sections[section]] {
+        if let count = numberOfItems[sections[section]] {
             return count
         }
         
@@ -119,7 +119,7 @@ public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierTyp
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let count = numberOfItems?[sections[section]] {
+        if let count = numberOfItems[sections[section]] {
             return count
         }
         
