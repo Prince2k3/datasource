@@ -26,23 +26,24 @@ import UIKit
 
 public protocol DataSourceStaticCell {}
 
-public final class StaticDataSource<SectionIdentifierType: Hashable>: NSObject {
+public final class StaticDataSource<SectionIdentifierType: Hashable>: NSObject, UITableViewDataSource, UICollectionViewDataSource {
     public typealias SupplementaryViewProvider = (UICollectionView, String, IndexPath) -> UICollectionReusableView?
     
-    private var sections: [SectionIdentifierType] = []
     private var supplementaryViewProvider: SupplementaryViewProvider?
+    private var sections: [SectionIdentifierType] = []
     
     public var staticCells: [SectionIdentifierType: [DataSourceStaticCell]] = [:]
     
-    public convenience init(supplementaryViewProvider: SupplementaryViewProvider? = nil) {
+    public convenience init(sections: [SectionIdentifierType], supplementaryViewProvider: SupplementaryViewProvider? = nil) {
         self.init()
         self.supplementaryViewProvider = supplementaryViewProvider
+        self.sections = sections
     }
     
     // UITableView
     
     public func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return staticCells.keys.count
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -60,7 +61,7 @@ public final class StaticDataSource<SectionIdentifierType: Hashable>: NSObject {
     // UICollectionView
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
+        return staticCells.keys.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
