@@ -24,9 +24,9 @@ SOFTWARE.
 
 import UIKit
 
-public final class DataSource<SectionIdentifierType: Hashable, ItemType>: NSObject, UITableViewDataSource, UICollectionViewDataSource {
-    public typealias TableViewCellProvider = (UITableView, IndexPath, ItemType) -> UITableViewCell?
-    public typealias CollectionViewCellProvider = (UICollectionView, IndexPath, ItemType) -> UICollectionViewCell?
+public final class DataSource<SectionIdentifierType: Hashable>: NSObject, UITableViewDataSource, UICollectionViewDataSource {
+    public typealias TableViewCellProvider = (UITableView, IndexPath, Any) -> UITableViewCell?
+    public typealias CollectionViewCellProvider = (UICollectionView, IndexPath, Any) -> UICollectionViewCell?
     public typealias SupplementaryViewProvider = (UICollectionView, String, IndexPath) -> UICollectionReusableView?
     
     public var commitEditingStyle: ((UITableViewCell.EditingStyle, IndexPath) -> Void)?
@@ -36,7 +36,7 @@ public final class DataSource<SectionIdentifierType: Hashable, ItemType>: NSObje
     private var supplementaryViewProvider: SupplementaryViewProvider?
     private var sections: [SectionIdentifierType] = []
     
-    public var items: [SectionIdentifierType: [ItemType]] = [:]
+    public var items: [SectionIdentifierType: [Any]] = [:]
     public var numberOfItems: Int?
     public var isCellsEditable: Bool = false
     public var isCellsMovable: Bool = false
