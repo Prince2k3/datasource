@@ -119,10 +119,11 @@ public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierTyp
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if let numberOfItems = self.numberOfItems {
-            return numberOfItems
+        if let count = numberOfItems?[sections[section]] {
+            return count
         }
-        return 0
+        
+        return items[sections[section]]?.count ?? 0
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
