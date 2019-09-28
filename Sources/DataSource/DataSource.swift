@@ -43,7 +43,7 @@ public final class DataSource<SectionIdentifierType: Hashable, ItemIdentifierTyp
     public var editableCells: [IndexPath: UITableViewCell.EditingStyle] = [:]
     public var movableCellIndexPaths: [IndexPath] = []
 
-    public convenience init(sections: [SectionIdentifierType], collectionViewCellProvider: @escaping CollectionViewCellProvider, supplementaryViewProvider: SupplementaryViewProvider? = nil) {
+    public convenience init(sections: [SectionIdentifierType], supplementaryViewProvider: SupplementaryViewProvider? = nil, collectionViewCellProvider: @escaping CollectionViewCellProvider) {
         self.init()
         self.collectionViewCellProvider = collectionViewCellProvider
         self.supplementaryViewProvider = supplementaryViewProvider
